@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>For You ❤️</title>
+
 <style>
 body {
   margin: 0;
@@ -10,56 +12,65 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-img {
-  max-width: 90%;
-  max-height: 70vh;
+.wrapper {
+  position: relative;
+  width: min(900px, 92vw);
+}
+
+#mainImage {
+  width: 100%;
+  height: auto;
   border-radius: 12px;
   transition: opacity 0.6s ease;
+  display: block;
 }
 
-button {
-  margin-top: 20px;
-  padding: 12px 30px;
-  font-size: 18px;
-  border-radius: 25px;
-  border: none;
+/* 🔥 YES Hotspot aligned to speech bubble */
+#yesHotspot {
+  position: absolute;
+  left: 26%;
+  top: 57%;
+  width: 22%;
+  height: 12%;
   cursor: pointer;
-  background-color: #ff5c8a;
-  color: white;
+  border-radius: 12px;
+  background: rgba(255, 0, 0, 0); /* invisible */
 }
 
-button:hover {
-  background-color: #ff2e6d;
-}
+/* Uncomment to debug placement */
+/* #yesHotspot { background: rgba(255,0,0,0.25); } */
+
 </style>
 </head>
 
 <body>
 
-<img id="mainImage" src="image1.png">
-
-<button onclick="nextImage()">Yes ❤️</button>
+<div class="wrapper">
+  <img id="mainImage" src="image1.png" />
+  <div id="yesHotspot"></div>
+</div>
 
 <script>
 let current = 1;
+const img = document.getElementById("mainImage");
+const hotspot = document.getElementById("yesHotspot");
 
-function nextImage() {
-  const img = document.getElementById("mainImage");
-
+hotspot.addEventListener("click", () => {
   if (current === 1) {
     img.style.opacity = 0;
     setTimeout(() => {
       img.src = "image2.png";
       img.style.opacity = 1;
+      hotspot.style.display = "none";
     }, 600);
     current = 2;
   }
-}
+});
 </script>
 
 </body>
