@@ -6,71 +6,75 @@
 <title>For You ❤️</title>
 
 <style>
-body {
-  margin: 0;
-  background-color: #f4f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
+  body {
+    margin: 0;
+    background-color: #f4f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
 
-.wrapper {
-  position: relative;
-  width: min(900px, 92vw);
-}
+  .wrapper {
+    position: relative;
+    width: min(900px, 92vw);
+  }
 
-#mainImage {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  transition: opacity 0.6s ease;
-  display: block;
-}
+  #mainImage {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    transition: opacity 0.6s ease;
+    display: block;
 
-/* 🔥 YES Hotspot aligned to speech bubble */
-#yesHotspot {
-  position: absolute;
-  left: 26%;
-  top: 57%;
-  width: 22%;
-  height: 12%;
-  cursor: pointer;
-  border-radius: 12px;
-  background: rgba(255, 0, 0, 0); /* invisible */
-}
+    /* IMPORTANT: don't steal clicks from hotspot */
+    pointer-events: none;
+  }
 
-/* Uncomment to debug placement */
-/* #yesHotspot { background: rgba(255,0,0,0.25); } */
+  /* YES Hotspot */
+  #yesHotspot {
+    position: absolute;
+    left: 26%;
+    top: 57%;
+    width: 22%;
+    height: 12%;
 
+    cursor: pointer;
+    border-radius: 12px;
+
+    /* IMPORTANT: must be above the image */
+    z-index: 10;
+
+    /* DEBUG: make it visible for now */
+    background: rgba(255, 0, 0, 0.25);
+  }
 </style>
 </head>
 
 <body>
-
-<div class="wrapper">
-  <img id="mainImage" src="image1.png" />
-  <div id="yesHotspot"></div>
-</div>
+  <div class="wrapper">
+    <img id="mainImage" src="image1.png" alt="Valentine" />
+    <div id="yesHotspot" aria-label="Yes"></div>
+  </div>
 
 <script>
-let current = 1;
-const img = document.getElementById("mainImage");
-const hotspot = document.getElementById("yesHotspot");
+  let current = 1;
+  const img = document.getElementById("mainImage");
+  const hotspot = document.getElementById("yesHotspot");
 
-hotspot.addEventListener("click", () => {
-  if (current === 1) {
+  hotspot.addEventListener("click", () => {
+    if (current !== 1) return;
+
     img.style.opacity = 0;
     setTimeout(() => {
       img.src = "image2.png";
       img.style.opacity = 1;
       hotspot.style.display = "none";
+      current = 2;
     }, 600);
-    current = 2;
-  }
-});
+  });
 </script>
 
 </body>
