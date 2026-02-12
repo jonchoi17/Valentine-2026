@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<style>
+body {
+  margin: 0;
+  background-color: #f4f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+}
+
+img {
+  max-width: 90%;
+  max-height: 70vh;
+  border-radius: 12px;
+  transition: opacity 0.6s ease;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 30px;
+  font-size: 18px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  background-color: #ff5c8a;
+  color: white;
+}
+
+button:hover {
+  background-color: #ff2e6d;
+}
+</style>
+</head>
+
+<body>
+
+<img id="mainImage" src="image1.png">
+
+<button onclick="nextImage()">Yes ❤️</button>
+
+<script>
+let current = 1;
+
+function nextImage() {
+  const img = document.getElementById("mainImage");
+
+  if (current === 1) {
+    img.style.opacity = 0;
+    setTimeout(() => {
+      img.src = "image2.png";
+      img.style.opacity = 1;
+    }, 600);
+    current = 2;
+  }
+}
+</script>
+
+</body>
+</html>
