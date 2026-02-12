@@ -30,6 +30,7 @@
       cursor: pointer;
       user-select: none;
       -webkit-user-drag: none;
+      touch-action: manipulation;
     }
   </style>
 </head>
@@ -40,43 +41,45 @@
   </div>
 
   <script>
-    // IMPORTANT: these must match your actual image1.png pixel dimensions
+    // MUST match image1.png pixel dimensions (yours is 1545 x 2000)
     const IMG_W = 1545;
     const IMG_H = 2000;
 
     let current = 1;
     const img = document.getElementById("mainImage");
 
-    img.addEventListener("click", (event) => {
+    function swapTo(src) {
+      img.style.opacity = 0;
+      setTimeout(() => {
+        img.src = src;
+        img.style.opacity = 1;
+      }, 600);
+    }
+
+    // Use pointerdown for best Safari/mobile reliability
+    img.addEventListener("pointerdown", (event) => {
       if (current !== 1) return;
 
       const rect = img.getBoundingClientRect();
       const x = (event.clientX - rect.left) * (IMG_W / rect.width);
       const y = (event.clientY - rect.top) * (IMG_H / rect.height);
 
-      // ✅ Tight YES bounds (you said this was perfect)
-      const yesArea = (x >= 470 && x <= 630 && y >= 880 && y <= 1010);
+      // ✅ Tight-but-usable YES area around the "YES" word
+      // (measured from your image)
+      const yesArea = (x >= 515 && x <= 720 && y >= 930 && y <= 1045);
 
-      // ✅ NO bounds (same size/height as YES, shifted right)
-      const noArea  = (x >= 730 && x <= 890 && y >= 880 && y <= 1010);
+      // ✅ Tight-but-usable NO area around the "NO" word
+      const noArea  = (x >= 875 && x <= 1055 && y >= 930 && y <= 1045);
 
       if (yesArea) {
         current = 2;
-        img.style.opacity = 0;
-        setTimeout(() => {
-          img.src = "image2.png";
-          img.style.opacity = 1;
-        }, 600);
+        swapTo("image2.png");
         return;
       }
 
       if (noArea) {
         current = 3;
-        img.style.opacity = 0;
-        setTimeout(() => {
-          img.src = "image3.png";
-          img.style.opacity = 1;
-        }, 600);
+        swapTo("image3.png");
         return;
       }
     });
