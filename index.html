@@ -1,54 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>For You ❤️</title>
-
-<style>
-body {
-  margin: 0;
-  background-color: #f4f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.wrapper {
-  width: min(900px, 92vw);
-}
-
-#mainImage {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  transition: opacity 0.6s ease;
-  display: block;
-  cursor: pointer;
-}
-</style>
-</head>
-
-<body>
-
-<div class="wrapper">
-  <img id="mainImage" src="image1.png" alt="Valentine" />
-</div>
-
 <script>
 let current = 1;
 const img = document.getElementById("mainImage");
 
 /*
-These values are based on the ORIGINAL image size:
-image1.png = 1545px width × 2000px height
-
-YES bubble area (measured directly from image):
-X range: 350px to 750px
-Y range: 820px to 1120px
+Original image size:
+1545px width × 2000px height
 */
 
 img.addEventListener("click", function(event) {
@@ -57,15 +13,21 @@ img.addEventListener("click", function(event) {
 
   const rect = img.getBoundingClientRect();
 
-  // click position relative to image (scaled)
   const x = (event.clientX - rect.left) * (1545 / rect.width);
   const y = (event.clientY - rect.top) * (2000 / rect.height);
 
-  // YES bubble bounds
-if (x >= 470 && x <= 630 && y >= 880 && y <= 1010) {
+  // YES area (tight around text)
+  const yesArea =
+    x >= 470 && x <= 630 &&
+    y >= 880 && y <= 1010;
 
+  // NO area (measured to match the NO bubble)
+  const noArea =
+    x >= 690 && x <= 850 &&
+    y >= 880 && y <= 1010;
+
+  if (yesArea) {
     img.style.opacity = 0;
-
     setTimeout(() => {
       img.src = "image2.png";
       img.style.opacity = 1;
@@ -73,8 +35,14 @@ if (x >= 470 && x <= 630 && y >= 880 && y <= 1010) {
     }, 600);
   }
 
+  if (noArea) {
+    img.style.opacity = 0;
+    setTimeout(() => {
+      img.src = "image3.png";
+      img.style.opacity = 1;
+      current = 3;
+    }, 600);
+  }
+
 });
 </script>
-
-</body>
-</html>
