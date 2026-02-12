@@ -1,48 +1,85 @@
-<script>
-let current = 1;
-const img = document.getElementById("mainImage");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For You ❤️</title>
 
-/*
-Original image size:
-1545px width × 2000px height
-*/
+  <style>
+    body {
+      margin: 0;
+      background-color: #f4f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+    }
 
-img.addEventListener("click", function(event) {
+    .wrapper {
+      width: min(900px, 92vw);
+    }
 
-  if (current !== 1) return;
+    #mainImage {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      transition: opacity 0.6s ease;
+      display: block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+  </style>
+</head>
 
-  const rect = img.getBoundingClientRect();
+<body>
+  <div class="wrapper">
+    <img id="mainImage" src="image1.png" alt="Valentine" />
+  </div>
 
-  const x = (event.clientX - rect.left) * (1545 / rect.width);
-  const y = (event.clientY - rect.top) * (2000 / rect.height);
+  <script>
+    // IMPORTANT: these must match your actual image1.png pixel dimensions
+    const IMG_W = 1545;
+    const IMG_H = 2000;
 
-  // YES area (tight around text)
-  const yesArea =
-    x >= 470 && x <= 630 &&
-    y >= 880 && y <= 1010;
+    let current = 1;
+    const img = document.getElementById("mainImage");
 
-  // NO area (measured to match the NO bubble)
-  const noArea =
-    x >= 690 && x <= 850 &&
-    y >= 880 && y <= 1010;
+    img.addEventListener("click", (event) => {
+      if (current !== 1) return;
 
-  if (yesArea) {
-    img.style.opacity = 0;
-    setTimeout(() => {
-      img.src = "image2.png";
-      img.style.opacity = 1;
-      current = 2;
-    }, 600);
-  }
+      const rect = img.getBoundingClientRect();
+      const x = (event.clientX - rect.left) * (IMG_W / rect.width);
+      const y = (event.clientY - rect.top) * (IMG_H / rect.height);
 
-  if (noArea) {
-    img.style.opacity = 0;
-    setTimeout(() => {
-      img.src = "image3.png";
-      img.style.opacity = 1;
-      current = 3;
-    }, 600);
-  }
+      // ✅ Tight YES bounds (you said this was perfect)
+      const yesArea = (x >= 470 && x <= 630 && y >= 880 && y <= 1010);
 
-});
-</script>
+      // ✅ NO bounds (same size/height as YES, shifted right)
+      const noArea  = (x >= 730 && x <= 890 && y >= 880 && y <= 1010);
+
+      if (yesArea) {
+        current = 2;
+        img.style.opacity = 0;
+        setTimeout(() => {
+          img.src = "image2.png";
+          img.style.opacity = 1;
+        }, 600);
+        return;
+      }
+
+      if (noArea) {
+        current = 3;
+        img.style.opacity = 0;
+        setTimeout(() => {
+          img.src = "image3.png";
+          img.style.opacity = 1;
+        }, 600);
+        return;
+      }
+    });
+  </script>
+</body>
+</html>
